@@ -1,19 +1,32 @@
 import React, {useContext, Fragment} from "react";
 import ContactContext from "../../context/contact/ContactContext";
 import ContactItem from "./ContactItem";
-
 const Contacts = () => {
   const contactContext = useContext(ContactContext);
 
-  const {contacts} = contactContext;
+  const {contacts, filtered} = contactContext;
 
-  return (
-    <Fragment>
-      {contacts.map(o => {
+  if (contacts.length == 0) {
+    return <h4>Please Add Contacts</h4>;
+  }
+
+  if (filtered == null) {
+    return (
+      <Fragment>
+        {contacts.map(o => {
           return <ContactItem key={o.id} contact={o} />;
-      })}
-    </Fragment>
-  );
+        })}
+      </Fragment>
+    );
+  } else {
+    return (
+      <Fragment>
+        {filtered.map(o => {
+          return <ContactItem key={o.id} contact={o} />;
+        })}
+      </Fragment>
+    );
+  }
 };
 
 export default Contacts;
