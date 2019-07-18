@@ -1,12 +1,34 @@
-import React, {useState} from "react";
+import React, {useState, useContext, useEffect} from "react";
+import AlertContext from "../../context/alert/AlertContext";
+import AuthContext from "../../context/auth/AuthContext";
 
-const Register = () => {
+const Register = props => {
   const [user, setUser] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: ""
   });
+
+  const {setAlert} = useContext(AlertContext);
+  const {register, error, clearError, isAuthenticated} = useContext(
+    AuthContext
+  );
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      props.history.push("/");
+    }
+    if (error !== null) {
+      setAlert(error, "danger");
+    }
+
+    setTimeout(() => {
+      clearError();
+    }, 5000);
+
+    // eslint-disable-next-line
+  }, [error, isAuthenticated, props.history]);
 
   const {name, email, password, confirmPassword} = user;
 
@@ -16,9 +38,23 @@ const Register = () => {
       [e.target.name]: e.target.value
     });
   };
-    const onSubmit=e => {
-        e.preventDefault();
-        console.log('Register Submit!')
+  const onSubmit = e => {
+    e.preventDefault();
+
+    if (name == "" || email == "" || password == "") {
+      setAlert("Please Enter All Fields", "danger");
+    }
+
+    if (password !== confirmPassword) {
+      setAlert("Passwords Does not Match", "danger");
+    } else {
+      console.log("Register Submit!");
+      register({
+        name,
+        email,
+        password
+      });
+    }
   };
   return (
     <div className='form-container'>
@@ -34,6 +70,7 @@ const Register = () => {
             id='name'
             value={name}
             onChange={onChange}
+            required
           />
         </div>
 
@@ -45,6 +82,7 @@ const Register = () => {
             id='email'
             value={email}
             onChange={onChange}
+            required
           />
         </div>
 
@@ -56,6 +94,8 @@ const Register = () => {
             id='password'
             value={password}
             onChange={onChange}
+            required
+            minLength='6'
           />
         </div>
 
@@ -67,6 +107,8 @@ const Register = () => {
             id='confirmPassword'
             value={confirmPassword}
             onChange={onChange}
+            required
+            minLength='6'
           />
         </div>
         <input

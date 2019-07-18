@@ -14,7 +14,7 @@ const Contacts = () => {
     return (
       <Fragment>
         {contacts.map(o => {
-          return <ContactItem key={o.id} contact={o} />;
+          return <ContactItem key={o._id} contact={o} />;
         })}
       </Fragment>
     );
@@ -22,7 +22,7 @@ const Contacts = () => {
     return (
       <Fragment>
         {filtered.map(o => {
-          return <ContactItem key={o.id} contact={o} />;
+          return <ContactItem key={o._id} contact={o} />;
         })}
       </Fragment>
     );
