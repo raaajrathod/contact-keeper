@@ -1,10 +1,12 @@
 import React, {useState, useContext, useEffect} from "react";
 import ContactContext from "../../context/contact/ContactContext";
 import AlertContext from "../../context/alert/AlertContext";
+import AuthContext from "../../context/auth/AuthContext";
 
 const ContactForm = () => {
   const contactContext = useContext(ContactContext);
   const {setAlert} = useContext(AlertContext);
+  const {loadUser} = useContext(AuthContext);
   const {
     addContact,
     currentContact,
@@ -14,6 +16,7 @@ const ContactForm = () => {
   } = contactContext;
 
   useEffect(() => {
+    loadUser();
     if (error != null) {
       setAlert(error, "danger");
     }

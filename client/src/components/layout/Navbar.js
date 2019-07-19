@@ -3,15 +3,18 @@ import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 
 import AuthContext from "../../context/auth/AuthContext";
+import ContactContext from "../../context/contact/ContactContext";
 
 const Navbar = ({title, icon}) => {
   const authContext = useContext(AuthContext);
+  const {clearContacts} = useContext(ContactContext);
 
-  const {isAuthenticated,logout,user}=authContext;
-  
-  const onLogout=()=> {
+  const {isAuthenticated, logout, user} = authContext;
+
+  const onLogout = () => {
     logout();
-  }
+    clearContacts();
+  };
 
   const authLinks = (
     <Fragment>
